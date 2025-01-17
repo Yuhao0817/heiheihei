@@ -14,6 +14,7 @@
             justify-content: center;
             align-items: center;
             background-color: #f0f0f0;
+            overflow: hidden; /* 防止滚动条 */
         }
         h1 {
             position: relative;
@@ -28,6 +29,7 @@
             display: flex;
             justify-content: center;
             gap: 10px;
+            position: relative;
         }
         .buttons-container input {
             padding: 10px 20px;
@@ -61,8 +63,19 @@
             var Bn = document.querySelectorAll('.buttons-container input')[1];
             var aWidth = document.body.clientWidth || document.documentElement.clientWidth;
             var aHeight = document.body.clientHeight || document.documentElement.clientHeight;
-            var sJs1 = Math.floor(Math.random() * aHeight);
-            var sJs2 = Math.floor(Math.random() * aWidth);
+
+            // 获取按钮的宽度和高度
+            var btnWidth = Bn.offsetWidth;
+            var btnHeight = Bn.offsetHeight;
+
+            // 计算按钮可以随机出现的最大位置，避免按钮超出屏幕
+            var maxX = aWidth - btnWidth - 20;  // 留出20px的边距
+            var maxY = aHeight - btnHeight - 20;
+
+            // 随机生成按钮的位置，确保按钮不会跑出屏幕
+            var sJs1 = Math.floor(Math.random() * maxY);
+            var sJs2 = Math.floor(Math.random() * maxX);
+
             if(flag == 1){
                 Bn.style.position = 'absolute';
                 Bn.style.top = sJs1 + 'px';
