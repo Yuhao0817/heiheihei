@@ -12,7 +12,7 @@
             margin: 0;
         }
         h1 {
-            font-size: 2.5rem;
+            font-size: 1.7rem;  /* 调整为原来的三分之二 */
             text-align: center;
             margin-bottom: 2rem;
         }
@@ -21,8 +21,8 @@
             gap: 1rem;
         }
         input[type="button"] {
-            font-size: 1.5rem;
-            padding: 0.5rem 1rem;
+            font-size: 1rem;  /* 调整为原来的三分之二 */
+            padding: 0.25rem 0.5rem;  /* 按钮内边距缩小一半 */
             border-radius: 0.3rem;
             cursor: pointer;
             border: 1px solid #ccc;
@@ -46,19 +46,23 @@
         
         function f(){ 
             var Bn = document.getElementById('Bn');
+            var By = document.getElementById('By');
             var aWidth = window.innerWidth - 150;
             var aHeight = window.innerHeight - 150;
             
-            var currentTop = parseInt(Bn.style.top) || Bn.offsetTop;
-            var currentLeft = parseInt(Bn.style.left) || Bn.offsetLeft;
+            // 获取"是的"按钮的位置
+            var byRect = By.getBoundingClientRect();
+            var byLeft = byRect.left;
+            var byTop = byRect.top;
             
             var newTop, newLeft;
             do {
                 newTop = Math.floor(Math.random() * aHeight);
                 newLeft = Math.floor(Math.random() * aWidth);
+                // 确保新位置距离"是的"按钮至少150px
             } while (
-                Math.abs(newTop - currentTop) < 100 || 
-                Math.abs(newLeft - currentLeft) < 100
+                Math.abs(newTop - byTop) < 150 || 
+                Math.abs(newLeft - byLeft) < 150
             );
             
             Bn.style.position = 'fixed';
