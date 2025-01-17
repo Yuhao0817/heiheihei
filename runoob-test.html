@@ -22,9 +22,10 @@
         }
         input[type="button"] {
             font-size: 1.5rem;
-            padding: 1rem 2rem;
-            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.3rem;
             cursor: pointer;
+            border: 1px solid #ccc;
         }
     </style>
 </head>
@@ -43,31 +44,26 @@
             alert("太好来，晚上一起吃饭看电影！！！") 
         } 
         
-        var flag=1;
         function f(){ 
             var Bn = document.getElementById('Bn');
-            var aWidth = window.innerWidth - 100;
-            var aHeight = window.innerHeight - 100;
-            var sJs1 = Math.floor(Math.random() * aHeight);
-            var sJs2 = Math.floor(Math.random() * aWidth);
+            var aWidth = window.innerWidth - 150;
+            var aHeight = window.innerHeight - 150;
             
-            if(flag==1){
-                Bn.style.top = sJs1 + 'px';
-                Bn.style.left = sJs2 + 'px'; 
-                flag = 2;
-            }else if(flag==2){
-                Bn.style.top = sJs1 + 'px';
-                Bn.style.left = sJs2 + 'px';
-                flag = 3;
-            }else if(flag==3){
-                Bn.style.top = '50%';
-                Bn.style.left = '40%';
-                flag = 4;
-            }else if(flag==4){
-                Bn.style.top = '50%';
-                Bn.style.left = '60%';
-                flag = 1;
-            }
+            var currentTop = parseInt(Bn.style.top) || Bn.offsetTop;
+            var currentLeft = parseInt(Bn.style.left) || Bn.offsetLeft;
+            
+            var newTop, newLeft;
+            do {
+                newTop = Math.floor(Math.random() * aHeight);
+                newLeft = Math.floor(Math.random() * aWidth);
+            } while (
+                Math.abs(newTop - currentTop) < 100 || 
+                Math.abs(newLeft - currentLeft) < 100
+            );
+            
+            Bn.style.position = 'fixed';
+            Bn.style.top = newTop + 'px';
+            Bn.style.left = newLeft + 'px';
         }
         
         function f2(){
