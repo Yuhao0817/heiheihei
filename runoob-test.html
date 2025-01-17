@@ -76,9 +76,21 @@
             var maxX = aWidth - btnWidth - 20;  // 留出20px的边距
             var maxY = aHeight - btnHeight - 20;
 
-            // 随机生成按钮的位置，确保按钮不会跑出屏幕
-            var sJs1 = Math.floor(Math.random() * maxY);
-            var sJs2 = Math.floor(Math.random() * maxX);
+            // 获取当前按钮的位置
+            var currentTop = Bn.offsetTop;
+            var currentLeft = Bn.offsetLeft;
+
+            // 设置限制的最大移动距离，限制按钮不会跑得太远
+            var moveRangeX = 100; // 最大水平移动距离
+            var moveRangeY = 100; // 最大垂直移动距离
+
+            // 随机生成按钮的新位置，确保它不会移出屏幕
+            var sJs1 = Math.floor(Math.random() * (moveRangeY * 2) - moveRangeY + currentTop);
+            var sJs2 = Math.floor(Math.random() * (moveRangeX * 2) - moveRangeX + currentLeft);
+
+            // 确保新位置在屏幕可视区域内
+            sJs1 = Math.max(20, Math.min(sJs1, maxY)); // 限制Y轴范围
+            sJs2 = Math.max(20, Math.min(sJs2, maxX)); // 限制X轴范围
 
             // 设置按钮的新位置
             Bn.style.position = 'absolute';
