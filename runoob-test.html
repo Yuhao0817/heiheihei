@@ -13,6 +13,7 @@
       height: 100vh;
       margin: 0;
       background-color: #f0f0f0;
+      flex-direction: column;
     }
     #container {
       text-align: center;
@@ -20,6 +21,12 @@
     }
     #By, #Bn {
       margin-top: 20px;
+    }
+    #Bn {
+      position: absolute;
+      top: 235px;
+      left: 360px;
+      transition: all 0.3s;
     }
     @media (max-width: 600px) {
       h1 {
@@ -45,15 +52,16 @@
   <script>
     function f1(){
       alert("太好来，晚上一起吃饭看电影！！！") 
-    } 
-    var flag=1;
+    }
+
+    var flag = 1;
     function f(){ 
       var Bn = document.getElementById('Bn');
       var aWidth = window.innerWidth;
       var aHeight = window.innerHeight;
       var sJs1 = Math.floor(Math.random() * aHeight);
       var sJs2 = Math.floor(Math.random() * aWidth);
-      if(flag==1){
+      if(flag == 1){
         Bn.style.top = sJs1 + 'px';
         Bn.style.left = sJs2 + 'px'; 
         flag = 2;
