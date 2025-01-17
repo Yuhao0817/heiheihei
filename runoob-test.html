@@ -1,79 +1,80 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-        h1 {
-            font-size: 1.7rem;  /* 调整为原来的三分之二 */
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .button-container {
-            display: flex;
-            gap: 1rem;
-        }
-        input[type="button"] {
-            z-index: 10;
-            font-size: 1rem;  /* 调整为原来的三分之二 */
-            padding: 0.05rem 0.05rem;  /* 按钮内边距缩小一半 */
-            border-radius: 0.3rem;
-            cursor: pointer;
-            border: 1px solid #ccc;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>互动页面</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+    #container {
+      text-align: center;
+      position: relative;
+    }
+    #By, #Bn {
+      margin-top: 20px;
+    }
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 20px;
+      }
+      #By input, #Bn input {
+        font-size: 14px;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div id="container">
     <h1>你喜欢我吗?</h1>
-    <div class="button-container">
-        <div id="By">
-            <input type="button" value="是的！" onclick="f1()">
-        </div>
-        <div id="Bn">
-            <input type="button" value="喜欢个锤子！" onmouseover="f()" onclick="f2()">
-        </div>
+    <div id="By">
+      <input type="button" value=" 是的！ " onclick="f1()">
     </div>
-    <script>
-        function f1(){
-            alert("太好来，晚上一起吃饭看电影！！！") 
-        } 
-        
-        function f(){ 
-            var Bn = document.getElementById('Bn');
-            var By = document.getElementById('By');
-            var aWidth = window.innerWidth - 150;
-            var aHeight = window.innerHeight - 150;
-            
-            // 获取"是的"按钮的位置
-            var byRect = By.getBoundingClientRect();
-            var byLeft = byRect.left;
-            var byTop = byRect.top;
-            
-            var newTop, newLeft;
-            do {
-                newTop = Math.floor(Math.random() * aHeight);
-                newLeft = Math.floor(Math.random() * aWidth);
-                // 确保新位置距离"是的"按钮至少150px
-            } while (
-                Math.abs(newTop - byTop) < 150 || 
-                Math.abs(newLeft - byLeft) < 150
-            );
-            
-            Bn.style.position = 'absolute';
-            Bn.style.top = newTop + 'px';
-            Bn.style.left = newLeft + 'px';
-        }
-        
-        function f2(){
-            alert('这不是你的真心话！');
-        }
-    </script>
+    <div id="Bn">
+      <input type="button" value=" 喜欢个锤子！ " onmouseover="f()" onclick="f2()">
+    </div>
+  </div>
+  
+  <script>
+    function f1(){
+      alert("太好来，晚上一起吃饭看电影！！！") 
+    } 
+    var flag=1;
+    function f(){ 
+      var Bn = document.getElementById('Bn');
+      var aWidth = window.innerWidth;
+      var aHeight = window.innerHeight;
+      var sJs1 = Math.floor(Math.random() * aHeight);
+      var sJs2 = Math.floor(Math.random() * aWidth);
+      if(flag==1){
+        Bn.style.top = sJs1 + 'px';
+        Bn.style.left = sJs2 + 'px'; 
+        flag = 2;
+      } else if(flag == 2){
+        Bn.style.top = sJs1 + 'px';
+        Bn.style.left = sJs2 + 'px';
+        flag = 3;
+      } else if(flag == 3){
+        Bn.style.top = '235px';
+        Bn.style.left = '286px';
+        flag = 4;
+      } else if(flag == 4){
+        Bn.style.top = '235px';
+        Bn.style.left = '360px';
+        flag = 1;
+      }
+    }
+
+    function f2(){
+      alert('这不是你的真心话！');
+    }
+  </script>
 </body>
 </html>
