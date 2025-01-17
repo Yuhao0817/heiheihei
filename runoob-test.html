@@ -18,7 +18,7 @@
         }
         h1 {
             position: absolute;
-            font-size: 44px;
+            font-size: 24px;
             text-align: center;
             margin-bottom: 20px;
             width: 100%;
@@ -38,7 +38,7 @@
         }
         .buttons-container input {
             padding: 10px 20px;
-            font-size: 26px;
+            font-size: 16px;
             cursor: pointer;
             border: none;
             background-color: #4CAF50;
@@ -61,7 +61,8 @@
     <script>
         function f1(){
             alert("太好来，晚上一起吃饭看电影！！！") 
-        } 
+        }
+
         var flag = 1;
         function f(){ 
             var Bn = document.querySelectorAll('.buttons-container input')[1];
@@ -80,6 +81,7 @@
             var sJs1 = Math.floor(Math.random() * maxY);
             var sJs2 = Math.floor(Math.random() * maxX);
 
+            // 设置按钮的新位置
             Bn.style.position = 'absolute';
             Bn.style.top = sJs1 + 'px';
             Bn.style.left = sJs2 + 'px';
