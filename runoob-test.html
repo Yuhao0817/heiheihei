@@ -55,7 +55,7 @@
     <h1>你喜欢我吗?</h1>
     <div class="buttons-container">
         <input type="button" value=" 是的！ " onclick="f1()">
-        <input type="button" value=" 喜欢个锤子！ " onmouseover="f()" onclick="f2()">
+        <input type="button" value=" 喜欢个锤子！ " onmouseover="f()" onclick="moveButton()">
     </div>
 
     <script>
@@ -63,8 +63,7 @@
             alert("太好来，晚上一起吃饭看电影！！！") 
         }
 
-        var flag = 1;
-        function f(){ 
+        function moveButton(){ 
             var Bn = document.querySelectorAll('.buttons-container input')[1];
             var aWidth = document.body.clientWidth || document.documentElement.clientWidth;
             var aHeight = document.body.clientHeight || document.documentElement.clientHeight;
@@ -85,10 +84,6 @@
             Bn.style.position = 'absolute';
             Bn.style.top = sJs1 + 'px';
             Bn.style.left = sJs2 + 'px';
-        }
-
-        function f2(){
-            alert('这不是你的真心话！');
         }
     </script>
 </body>
