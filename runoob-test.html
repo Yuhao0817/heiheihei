@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>花绽放效果</title>
+    <title>花朵光辉效果</title>
     <style>
         body, html {
             margin: 0;
@@ -18,73 +18,114 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-40%, -50%);
+            transform: translate(-50%, -50%);
         }
     </style>
 </head>
 <body>
     <canvas id="c"></canvas>
     <script>
-        var b = document.body;
-        var c = document.getElementById('c');
-        var a = c.getContext('2d');
+        var canvas = document.getElementById('c');
+        var ctx = canvas.getContext('2d');
 
         // 设置画布尺寸自适应屏幕大小
-        c.width = window.innerWidth;
-        c.height = window.innerHeight;
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-        var m = Math;
-        var C = m.cos;
-        var S = m.sin;
-        var P = m.pow;
-        var R = m.random;
+        // 花朵的基本属性
+        var flower = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            radius: 100,
+            petalCount: 8,
+            petalLength: 120,
+            petalWidth: 30,
+            color: "#FF69B4" // 花瓣的颜色
+        };
 
-        var f = 600;
-        var h = -250;
+        // 设置光辉粒子的属性
+        var particles = [];
 
-        // 函数p，生成效果
-        function p(a, b, c) {
-            if (c > 60) {
-                return [S(a * 7) * (13 + 5 / (.2 + P(b * 4, 4))) - S(b) * 50, b * f + 50, 625 + C(a * 7) * (13 + 5 / (.2 + P(b * 4, 4))) + b * 400, a * 1 - b / 2, a];
+        // 绘制花朵
+        function drawFlower() {
+            ctx.save();
+            ctx.translate(flower.x, flower.y);
+            ctx.beginPath();
+
+            for (var i = 0; i < flower.petalCount; i++) {
+                var angle = (i * Math.PI * 2) / flower.petalCount;
+                var petalX = flower.petalLength * Math.cos(angle);
+                var petalY = flower.petalLength * Math.sin(angle);
+
+                // 绘制每一片花瓣
+                ctx.moveTo(0, 0);
+                ctx.lineTo(petalX, petalY);
+                ctx.lineWidth = flower.petalWidth;
+                ctx.strokeStyle = flower.color;
+                ctx.stroke();
             }
-            A = a * 2 - 1;
-            B = b * 2 - 1;
-            if (A * A + B * B < 1) {
-                if (c > 37) {
-                    n = (j = c & 1) ? 6 : 4;
-                    o = .5 / (a + .01) + C(b * 125) * 3 - a * 300;
-                    w = b * h;
-                    return [o * C(n) + w * S(n) + j * 610 - 390, o * S(n) - w * C(n) + 550 - j * 350, 1180 + C(B + A) * 99 - j * 300, .4 - a * .1 + P(1 - B * B, -h * 6) * .15 - a * b * .4 + C(a + b) / 5 + P(C((o * (a + 1) + (B > 0 ? w : -w)) / 25), 30) * .1 * (1 - B * B), o / 1e3 + .7 - o * w * 3e-6];
-                }
-                if (c > 32) {
-                    c = c * 1.16 - .15;
-                    o = a * 45 - 20;
-                    w = b * b * h;
-                    z = o * S(c) + w * C(c) + 620;
-                    return [o * C(c) - w * S(c), 28 + C(B * .5) * 99 - b * b * b * 60 - z / 2 - h, z, (b * b * .3 + P((1 - (A * A)), 7) * .15 + .3) * b, b * .7];
-                }
-                o = A * (2 - b) * (80 - c * 2);
-                w = 99 - C(A) * 120 - C(b) * (-h - c * 4.9) + C(P(1 - b, 7)) * 50 + c * 2;
-                z = o * S(c) + w * C(c) + 700;
-                return [o * C(c) - w * S(c), B * 99 - C(P(b, 7)) * 50 - c / 3 - z / 1.35 + 450, z, (1 - b / 1.2) * .9 + a * .1, P((1 - b), 20) / 4 + .05];
-            }
+
+            ctx.restore();
         }
 
-        // 动画帧函数，用于保持动画持续
-        function animate() {
-            for (i = 0; i < 1e4; i++) {
-                if (s = p(R(), R(), i % 46 / .74)) {
-                    z = s[2];
-                    x = ~~(s[0] * f / z - h);
-                    y = ~~(s[1] * f / z - h);
-                    if (!m[q = y * f + x] || m[q] > z) {
-                        m[q] = z;
-                        a.fillStyle = "rgb(" + ~(s[3] * h) + "," + ~(s[4] * h) + "," + ~(s[3] * s[3] * -80) + ")";
-                        a.fillRect(x, y, 1, 1);
-                    }
+        // 创建光辉粒子
+        function createParticle() {
+            var angle = Math.random() * Math.PI * 2;
+            var distance = Math.random() * 200 + 50; // 粒子离花朵的初始距离
+            var speed = Math.random() * 3 + 1; // 粒子的速度
+            var particle = {
+                x: flower.x + Math.cos(angle) * distance,
+                y: flower.y + Math.sin(angle) * distance,
+                radius: Math.random() * 2 + 1,
+                alpha: 1,
+                speed: speed,
+                angle: angle
+            };
+            particles.push(particle);
+        }
+
+        // 绘制光辉粒子
+        function drawParticles() {
+            ctx.globalCompositeOperation = 'lighter'; // 光辉效果
+            for (var i = 0; i < particles.length; i++) {
+                var p = particles[i];
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = "rgba(255, 255, 255, " + p.alpha + ")";
+                ctx.fill();
+                ctx.closePath();
+
+                // 更新粒子位置和透明度
+                p.x += Math.cos(p.angle) * p.speed;
+                p.y += Math.sin(p.angle) * p.speed;
+                p.alpha -= 0.01;
+                p.radius += 0.05;
+
+                // 移除过时的粒子
+                if (p.alpha <= 0) {
+                    particles.splice(i, 1);
+                    i--;
                 }
             }
-            requestAnimationFrame(animate); // 持续调用动画函数
+            ctx.globalCompositeOperation = 'source-over'; // 恢复正常合成模式
+        }
+
+        // 动画函数
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // 清空画布
+
+            // 绘制花朵
+            drawFlower();
+
+            // 生成新的光辉粒子
+            if (Math.random() < 0.05) {
+                createParticle();
+            }
+
+            // 绘制并更新粒子
+            drawParticles();
+
+            requestAnimationFrame(animate);
         }
 
         // 启动动画
@@ -92,8 +133,8 @@
 
         // 窗口调整时，重新设置画布尺寸
         window.onresize = function () {
-            c.width = window.innerWidth;
-            c.height = window.innerHeight;
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         };
     </script>
 </body>
