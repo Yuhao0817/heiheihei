@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>花朵光辉效果</title>
+    <title>花绽放效果</title>
     <style>
         body, html {
             margin: 0;
@@ -18,39 +18,48 @@
             position: absolute;
             top: 50%;
             left: 50%;
-/*             transform: translate(-50%, -50%); */
+/*             transform: translate(-50%, -50%); /* 居中 */ */
         }
     </style>
 </head>
 <body>
     <canvas id="c"></canvas>
     <script>
-        var canvas = document.getElementById('c');
-        var ctx = canvas.getContext('2d');
+        var b = document.body;
+        var c = document.getElementById('c');
+        var a = c.getContext('2d');
 
         // 设置画布尺寸自适应屏幕大小
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        c.width = window.innerWidth;
+        c.height = window.innerHeight;
 
-        // 花朵的基本属性
+        var m = Math;
+        var C = m.cos;
+        var S = m.sin;
+        var P = m.pow;
+        var R = m.random;
+
+        var f = 600;
+        var h = -250;
+
+        // 花的基本参数
         var flower = {
-            x: canvas.width / 2,
-            y: canvas.height / 2,
-            radius: 100,
+            x: c.width / 2,
+            y: c.height / 2,
             petalCount: 8,
             petalLength: 120,
             petalWidth: 30,
-            color: "#FF69B4" // 花瓣的颜色
+            color: "#FF69B4"
         };
 
-        // 设置光辉粒子的属性
+        // 光辉粒子数组
         var particles = [];
 
         // 绘制花朵
         function drawFlower() {
-            ctx.save();
-            ctx.translate(flower.x, flower.y);
-            ctx.beginPath();
+            a.save();
+            a.translate(flower.x, flower.y);
+            a.beginPath();
 
             for (var i = 0; i < flower.petalCount; i++) {
                 var angle = (i * Math.PI * 2) / flower.petalCount;
@@ -58,14 +67,14 @@
                 var petalY = flower.petalLength * Math.sin(angle);
 
                 // 绘制每一片花瓣
-                ctx.moveTo(0, 0);
-                ctx.lineTo(petalX, petalY);
-                ctx.lineWidth = flower.petalWidth;
-                ctx.strokeStyle = flower.color;
-                ctx.stroke();
+                a.moveTo(0, 0);
+                a.lineTo(petalX, petalY);
+                a.lineWidth = flower.petalWidth;
+                a.strokeStyle = flower.color;
+                a.stroke();
             }
 
-            ctx.restore();
+            a.restore();
         }
 
         // 创建光辉粒子
@@ -86,14 +95,14 @@
 
         // 绘制光辉粒子
         function drawParticles() {
-            ctx.globalCompositeOperation = 'lighter'; // 光辉效果
+            a.globalCompositeOperation = 'lighter'; // 光辉效果
             for (var i = 0; i < particles.length; i++) {
                 var p = particles[i];
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                ctx.fillStyle = "rgba(255, 255, 255, " + p.alpha + ")";
-                ctx.fill();
-                ctx.closePath();
+                a.beginPath();
+                a.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                a.fillStyle = "rgba(255, 255, 255, " + p.alpha + ")";
+                a.fill();
+                a.closePath();
 
                 // 更新粒子位置和透明度
                 p.x += Math.cos(p.angle) * p.speed;
@@ -107,25 +116,25 @@
                     i--;
                 }
             }
-            ctx.globalCompositeOperation = 'source-over'; // 恢复正常合成模式
+            a.globalCompositeOperation = 'source-over'; // 恢复正常合成模式
         }
 
         // 动画函数
         function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // 清空画布
+            a.clearRect(0, 0, c.width, c.height); // 清空画布
 
             // 绘制花朵
             drawFlower();
 
-            // 生成新的光辉粒子
-            if (Math.random() < 0.05) {
+            // 创建新的光辉粒子
+            if (Math.random() < 0.1) { // 每帧产生光辉粒子
                 createParticle();
             }
 
             // 绘制并更新粒子
             drawParticles();
 
-            requestAnimationFrame(animate);
+            requestAnimationFrame(animate); // 持续调用动画函数
         }
 
         // 启动动画
@@ -133,8 +142,8 @@
 
         // 窗口调整时，重新设置画布尺寸
         window.onresize = function () {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            c.width = window.innerWidth;
+            c.height = window.innerHeight;
         };
     </script>
 </body>
